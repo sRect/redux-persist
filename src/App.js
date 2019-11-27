@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+// import {fromJS} from 'immutable';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    const { a, b } = this.props;
+    return (
+      <div>
+        <h1>redux-persist + immutable</h1>
+        <hr />
+        <div style={{fontSize: '30px'}}>
+          a= {a} --- b={b}
+        </div>
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  console.log(state);
+  // state = fromJS(state)
+  // console.log(state);
+  return {
+    a: state.getIn(["reducerA", "a"]),
+    b: state.getIn(['reducerB', 'b'])
+  }
+  // return {
+  //   a: state.reducerA.getIn(["a"]),
+  //   b: state.reducerB.get('b')
+  // }
+}
+
+export default connect(mapStateToProps, null)(App);
